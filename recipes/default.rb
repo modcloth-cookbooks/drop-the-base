@@ -53,8 +53,7 @@ when 'smartos'
     action :disable
     supports :enable => true, :disable => true, :restart => true
   end
-
-when ['centos', 'ubuntu']
+when *%w(centos ubuntu)
   service 'ntpd' do
     supports [ :enable, :disable, :restart ]
     action [ :enable ]
@@ -65,9 +64,10 @@ when ['centos', 'ubuntu']
     notifies :restart, resources(:service => 'ntpd'), :immediately
   end
 
-when 'ubnutu'
-  service 'apache2' do
-    supports [ :start, :stop, :restart ]
-    action [ :stop ]
+  if node['platform'] == 'ubuntu'
+    service 'apache2' do
+      supports [ :start, :stop, :restart ]
+      action [ :stop ]
+    end
   end
 end
