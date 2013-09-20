@@ -1,0 +1,69 @@
+# Define the path to the working binaries
+PATH="/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
+
+# Define a logical TERM
+export TERM=xterm-256color
+
+# Check to see if ssh-agent is already running
+agent_pid="$(ps -ef | grep $USER | grep "ssh-agent" | grep -v "grep" | awk '{print($2)}')"
+
+# If the agent is not running (pid is zero length string)
+if [[ -z "$agent_pid" ]]; then
+    # Start up SSH Agent
+    eval "$(ssh-agent)"
+
+# If the agent is running (pid is non zero)
+else
+    # Connect to the currently running ssh-agent
+    agent_ppid="$(($agent_pid - 1))"
+
+    # and the actual auth socket file name is simply numerically one less than
+    # the actual process id, regardless of what `ps -ef` reports as the ppid
+    agent_sock="$(find /tmp/ssh* -user $USER -name "agent.$agent_ppid" 2>/dev/null)"
+
+    export SSH_AGENT_PID="$agent_pid"
+
+    export SSH_AUTH_SOCK="$agent_sock"
+fi
+
+# New files created with '644' permissions
+umask 027
+
+# Bash history stuff
+HISTCONTROL=ignoredups:ignorespace
+shopt -s histappend
+HISTSIZE=10000000000
+HISTFILESIZE=2000000000
+
+# # Display things in color
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+# Color terminal settings
+export LS_OPTIONS='--color=auto'
+export CLICOLOR='Yes'
+export LSCOLORS='exgxfxfxcxdxdxhbadbxbx'
+
+# Emacs is horrible... never use it.
+export EDITOR=vi
+
+# Pretty prompt!
+function prompt {
+ local BLUE="\[\033[0;34m\]"
+ local LIGHT_BLUE="\[\033[1;34m\]"
+ local PINK="\[\033[0;35m\]"
+ local LIGHT_PINK="\[\033[1;35m\]"
+ local RED="\[\033[0;31m\]"
+ local LIGHT_RED="\[\033[1;31m\]"
+ local YELLOW="\[\033[0;33m\]"
+ local LIGHT_YELLOW="\[\033[1;33m\]"
+ local GREEN="\[\033[0;32m\]"
+ local LIGHT_GREEN="\[\033[1;32m\]"
+ local WHITE="\[\033[1;37m\]"
+ local LIGHT_GRAY="\[\033[0;37m\]"
+ local DEFAULT="\[\033[0m\]"
+ PS1="$LIGHT_GREEN(\$(uname)) $LIGHT_BLUE::$YELLOW[\w]$LIGHT_BLUE::\n$LIGHT_RED::$LIGHT_BLUE\u${DEFAULT}Ə${PINK}\H$LIGHT_RED::$RED#$DEFAULT "
+}
+
+prompt
+

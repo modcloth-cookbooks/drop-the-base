@@ -1,0 +1,16 @@
+# Cookbook Name:: drop-the-base
+# Recipe:: link_awk
+#
+# Copyright 2013, ModCloth, Inc.
+# Licensed MIT
+#
+# During the dark days of the great GNU v. System V wars.... three awks were
+# forged... each more powerful than the last.
+
+case node['platform']
+when 'smartos'
+  link '/opt/local/bin/awk' do
+    to '/opt/local/gnu/bin/awk'
+    only_if { File.exists?('/opt/local/gnu/bin/awk') }
+  end
+end
