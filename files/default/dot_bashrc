@@ -1,1 +1,16 @@
-source ~/.bash_profile
+# Define the path to the working binaries
+PATH="/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
+
+# Define a logical TERM
+export TERM=xterm-256color
+
+# Bash history stuff
+HISTCONTROL=ignoredups:ignorespace
+shopt -s histappend
+HISTSIZE=10000000000
+HISTFILESIZE=2000000000
+
+# Color terminal settings
+export LS_OPTIONS='--color=auto'
+export CLICOLOR='Yes'
+export LSCOLORS='exgxfxfxcxdxdxhbadbxbx'

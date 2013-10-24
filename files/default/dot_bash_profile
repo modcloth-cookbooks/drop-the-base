@@ -1,11 +1,7 @@
-# Define the path to the working binaries
-PATH="/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
-
-# Define a logical TERM
-export TERM=xterm-256color
+source ~/.bashrc
 
 # Check to see if ssh-agent is already running
-agent_pid="$(ps -ef | grep $USER | grep "ssh-agent" | grep -v "grep" | awk '{print($2)}')"
+agent_pid="$(ps -ef | grep $USER | grep 'ssh-agent' | grep -v 'grep' | awk '{print($2)}')"
 
 # If the agent is not running (pid is zero length string)
 if [[ -z "$agent_pid" ]]; then
@@ -29,20 +25,9 @@ fi
 # New files created with '644' permissions
 umask 027
 
-# Bash history stuff
-HISTCONTROL=ignoredups:ignorespace
-shopt -s histappend
-HISTSIZE=10000000000
-HISTFILESIZE=2000000000
-
 # # Display things in color
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-
-# Color terminal settings
-export LS_OPTIONS='--color=auto'
-export CLICOLOR='Yes'
-export LSCOLORS='exgxfxfxcxdxdxhbadbxbx'
 
 # Emacs is horrible... never use it.
 export EDITOR=vi
@@ -66,4 +51,3 @@ function prompt {
 }
 
 prompt
-
