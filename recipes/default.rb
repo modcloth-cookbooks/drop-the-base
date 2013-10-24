@@ -53,7 +53,22 @@ when 'smartos'
     action :disable
     supports :enable => true, :disable => true, :restart => true
   end
-when *%w(centos ubuntu)
+when 'ubuntu'
+  service 'apache2' do
+    supports [ :start, :stop, :restart ]
+    action [ :stop ]
+  end
+
+  service 'ntp' do
+    supports [ :enable, :disable, :restart ]
+    action [ :enable ]
+  end
+
+  cookbook_file '/etc/ntp.conf' do
+    source 'ntp.conf'
+    notifies :restart, resources(:service => 'ntp'), :immediately
+  end
+when 'centos'
   service 'ntpd' do
     supports [ :enable, :disable, :restart ]
     action [ :enable ]
@@ -62,12 +77,5 @@ when *%w(centos ubuntu)
   cookbook_file '/etc/ntp.conf' do
     source 'ntp.conf'
     notifies :restart, resources(:service => 'ntpd'), :immediately
-  end
-
-  if node['platform'] == 'ubuntu'
-    service 'apache2' do
-      supports [ :start, :stop, :restart ]
-      action [ :stop ]
-    end
   end
 end
