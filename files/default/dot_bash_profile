@@ -51,3 +51,9 @@ function prompt {
 }
 
 prompt
+
+mkdir -p "$HOME/.bash_profile.d"
+
+for file in $(find "$HOME/.bash_profile.d" -type f -name '*.sh') ; do
+  [[ -s "$file" ]] && source "$file"
+done
