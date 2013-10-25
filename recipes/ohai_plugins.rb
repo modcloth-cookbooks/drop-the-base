@@ -13,6 +13,7 @@ template "#{node['ohai']['plugin_path']}/cpu.rb" do
   owner 'root'
   group 'root'
   mode 0755
+  only_if { node['platform'] == 'smartos' }
 end
 
 template "#{node['ohai']['plugin_path']}/memory.rb" do
@@ -20,4 +21,5 @@ template "#{node['ohai']['plugin_path']}/memory.rb" do
   owner 'root'
   group 'root'
   mode 0755
+  only_if { node['platform'] == 'smartos' }
 end
