@@ -15,7 +15,7 @@ class Chef
             if(@new_resource.append)
               @new_resource.members.each do |member|
                 Chef::Log.debug("#{@new_resource} appending member #{member} to group #{@new_resource.group_name}")
-                run_command(command: "usermod #{append_flags} #{@new_resource.group_name} #{member}" )
+                run_command(command: "usermod #{append_flags} #{@new_resource.group_name} #{member}")
               end
             end
           else

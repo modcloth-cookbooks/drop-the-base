@@ -17,7 +17,6 @@ class Chef
           end
 
           _, status = lock_check.stdout.split(' ')
-
           status == 'LK'
         end
 
