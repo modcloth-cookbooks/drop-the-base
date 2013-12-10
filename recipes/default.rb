@@ -66,7 +66,7 @@ when 'ubuntu'
 
   cookbook_file '/etc/ntp.conf' do
     source 'ntp.conf'
-    notifies :restart, resources(:service => 'ntp'), :immediately
+    notifies :restart, 'service[ntp]', :immediately
   end
 when 'centos'
   service 'ntpd' do
@@ -76,6 +76,6 @@ when 'centos'
 
   cookbook_file '/etc/ntp.conf' do
     source 'ntp.conf'
-    notifies :restart, resources(:service => 'ntpd'), :immediately
+    notifies :restart, 'service[ntpd]', :immediately
   end
 end
