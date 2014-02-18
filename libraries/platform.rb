@@ -327,7 +327,7 @@ class Chef
       include Chef::Mixin::ParamsValidate
 
       def find(name, version)
-        provider_map = platforms['default'].clone
+        provider_map = platforms.fetch(:default).clone
 
         name_sym = name
         if name.kind_of?(String)
